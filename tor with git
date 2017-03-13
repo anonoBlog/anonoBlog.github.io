@@ -59,10 +59,12 @@ private key: `~/.ssh/tor_only_rsa`
         brew services start tor
 
 
- 7. Are you ready? Try connecting to github:
+ 7. Are you ready? Try connecting to github with verbose logging
 
-        git fetch
+        GIT_SSH_COMMAND="ssh -v" git fetch
 
+ 7.1 You can leave on verbose git logging by adding `export GIT_SSH_COMMAND="ssh -v"` to your `.bash_profile` or `.zshrc`
+ 
 Did it work? Go and double check everything, have I missed something? please edit this answer!
 
 # Congratulations
