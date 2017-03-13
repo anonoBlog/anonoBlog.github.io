@@ -1,0 +1,83 @@
+Using npm over tor
+
+Requires tor CLI, I install it like this
+
+brew install tor
+# run it as a service
+brew services start tor
+# tor has set up a socks proxy on port 127.0.0.1:9050
+
+# Test tor by getting stackoverflow through tor.
+curl --socks5-hostname 127.0.0.1:9050 google.com
+
+
+
+
+brew install privoxy 
+brew services start privoxy
+
+# privoxy listens on port 8118 by default, we're going to make it take npm's http connection and forward it through the tor proxy 
+
+vi /usr/local/etc/privoxy/config
+# uncomment a line like this (on line 1337 for me :)
+# this forwards http connections on port 8118 through the tor proxy we just set up
+        forward-socks5t   /               127.0.0.1:9050 .
+
+#restart the privoxy http->tor bridge
+brew services restart privoxy
+
+# test the proxy by doing this 
+curl --proxy 127.0.0.1:8118 google.com
+
+you should get a html response from google.com `<H1>302 Moved</H1>`
+
+now this is important, check that your traffic is actually being routed over tor!
+
+Stop the to service 
+
+brew services stop tor
+
+Your curl should now fail
+curl --proxy 127.0.0.1:8118 google.com
+503 - Forwarding failure
+
+#turn the tor service back on
+
+brew services start tor
+
+Awesome if that's all worked then you have an HTTP proxy that goes through the tor network
+
+
+
+
+======
+
+Ok, now that we have a http proxy for npm to use.. let's set up npm.
+
+mkdir ByteCoin 
+cd ByteCoin
+
+subl .npmrc
+# add these lines, notice that https-proxy actualy uses **http://** this is not a mistake
+# https://stackoverflow.com/questions/11773509/npm-behind-a-proxy-fails-with-status-403
+https-proxy = http://127.0.0.1:8118
+http-proxy = http://127.0.0.1:8118
+
+
+
+=======
+
+
+Publishing on NPM
+# following this tutorial
+# https://docs.npmjs.com/getting-started/publishing-npm-packages
+
+in tor browser sign up for npm
+in tor, click confirmation email link
+npm login
+# enter username, password, email
+
+# from within the package that you want to publish
+npm publish
+
+@congratulations you have just published an anonymous npm module!

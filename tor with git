@@ -1,0 +1,93 @@
+None of these answers give a full useable workflow, I want to `git push`, not send an email! Here's how to do it properly but there's a bit of setup required. Instructions are for OSX
+
+#Publishing anonymously to github
+ 1. Download tor browser bundle AND the tor command line proxy
+
+         brew install tor
+         brew cask install torbrowser
+
+ 1.1 In tor browser, Create a new email address ( I used hmamail).
+
+ 1.2 In tor browser, Create a new github account
+
+ 2. Create a new ssh key, only for tor with your new email address
+
+        ssh-keygen -t rsa -b 4096 -C "satoshi_2@hmamail.com" -f tor_only_rsa
+
+This generates an ssh keypair:
+public key: `~/.ssh/tor_only_rsa.pub`
+private key: `~/.ssh/tor_only_rsa`
+
+ 2.2. In github, go to [SSH and PGP keys][1] and add a new **SSH** key, make title memorable.
+
+ 2.3. In github, set **Key** to the contents of the public key file you've just created, find it by running:
+
+       cat ~/.ssh/tor_only_rsa.pub
+
+ 2.3.1. Save the key to github
+
+ 3. In github, create an empty repository, let's call it `ByteCoin`, don't initialise it with a readme.
+
+ 4.  Edit the ssh config file `~/.ssh/config` (create if it doesn't exist)
+
+        Host github-tor-alias
+        User git
+        HostName github.com
+        IdentitiesOnly yes
+        IdentityFile ~/.ssh/tor_only_rsa
+        ProxyCommand nc -X 5 -x 127.0.0.1:9050 %h %p
+
+ You've created a hostname called `github-tor-alias` and tells ssh to use a proxy on `localhost:9050` and use the `tor_only_rsa` key to authenticate.
+
+ 5. Setup the config for your new project to use the tor proxy and credentials.
+
+        mkdir secret-project
+        cd secret-project
+        git init
+
+        git config --add user.name satoshi_2
+        git config --add user.email staoshi_2@hmamail.com
+
+# This next line is bloody important
+
+ 5.1. note the **ssh://git** and **github-tor-alias**
+
+        git remote add origin ssh://git@github-tor-alias/staoshi_2/ByteCoin.git
+
+ 6. Remember how you installed the **tor** command line proxy? start it as a service. It listens on `localhost:9050`
+
+        brew services start tor
+
+
+ 7. Are you ready? Try connecting to github:
+
+        git fetch
+
+Did it work? Go and double check everything, have I missed something? please edit this answer!
+
+# Congratulations
+
+breath that free air and get creating!
+
+So what have we just done? we've created a new identity who is associated only with the tor network, as far as github.com is concerned, you are staoshi_2 and could be anywhere in the world.
+
+tor runs a proxy on `127.0.0.1:9050`, because we setup a `ProxyCommand` in the `~/.ssh/config` file, all of your traffic goes through the tor proxy, git uses your new ssh key because you added `IdentityFile` and `IdentitiesOnly` to your `~/.ssh/config` file.
+
+Powerful stuff.
+
+Let's double check that you're really anonymous
+
+ 8. stop `tor` and try to `git push` again, it had better fail!
+
+        ssh_exchange_identification: Connection closed by remote host
+        fatal: Could not read from remote repository.
+
+ 8.1. If that git push succeeded well guess what, you weren't using tor, github.com knows your IP, figure out how to get it working and then start again with a new email address.
+
+# 9. Happy freedom!
+
+anon.
+
+  [1]: https://github.com/settings/keys
+  [2]: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+  [3]: http://www.emilsit.net/blog/archives/how-to-use-the-git-protocol-through-a-http-connect-proxy/
