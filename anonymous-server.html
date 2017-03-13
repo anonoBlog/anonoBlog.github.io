@@ -19,10 +19,10 @@
           <a href="index.html" class="navbar-brand">Anonoblog</a>
         </div>
         <div class="navbar navbar-static-top bs-docs-nav">
-          <ul class="nav navbar-nav"> 
+          <ul class="nav navbar-nav">
             <li class="active"> <a href="index.html">The project</a> </li>
-            <li> <a href="hidden-service.html">Set up a hidden service</a> </li> 
-            <li> <a href="anonymous-server.html">Manage a server anonymously</a> 
+            <li> <a href="hidden-service.html">Set up a hidden service</a> </li>
+            <li> <a href="anonymous-server.html">Manage a server anonymously</a>
           </ul>
         </div>
       </div>
@@ -42,7 +42,7 @@ Your hosting provider keeps logs and records who controls what servers. If your 
 </p>
 <h2>Get tor and the tor browser bundle</h2>
 <p>
-Throughout this whole process you should be using the tor browser bundle for all of your searching. 
+Throughout this whole process you should be using the tor browser bundle for all of your searching.
 
 You must keep your tor identity seperate from your real identity! If you've set up a reddit account while browsing on tor, NEVER log into it from google chrome. Never log into your personal email account from tor. The idea is to keep your public and anonymous profiles completely seperate.
 <br/>
@@ -52,10 +52,13 @@ Download the <a href="www.torproject.org/projects/torbrowser.html">Tor browser b
 
 <h2>Get some bitcoin that are not tied to your identity</h2>
 <p>
-  We have to treat the hosting provider and payment proccessor as if they are completely compromised from day 1. Paying with credit card would lead a trail directly to your real address. 
+  We have to treat the hosting provider and payment proccessor as if they are completely compromised from day 1. Paying with credit card would lead a trail directly to your real address.
 </p>
 <p>
-  Getting that bitcoin anonymously was the tricky part for me. Australian sites have been forced to make you upload an ID to buy bitcoin. If you have to do that, then run your bitcoin through a service like <a href="http://bitmixer2whesjgj.onion">http://bitmixer2whesjgj.onion</a>. Also, not all wallets are created equal <a href="https://bitcoin.org/en/choose-your-wallet">bitcoin.org wallets</a> I prefer the bitcoin core wallet because it is open source and doesn't expose all of your addresses like online wallets can.
+  Bitcoin is a pseudo-anonymous Crypto Currency, transaction history of accounts is completely public but bitcoin accounts aren't neccissarily tied to real identities. To use bitcoin anonymously, you'll have to get a bitcoin account that's not tied to your real identity. This was the tricky part for me, Australian sites make you upload an ID when you buy bitcoin.
+</p>
+<p>
+   Fortunately there's a way to re-annonymise your bitcoin. Bitcoin mixers are services which take bitcoin from many accounts, shuffle them together and credit a new <i>re-anonymised</i> account in a way that is very hard to trace. I used bitmixer.io but there are quite a few available <a href="http://bitmixer2whesjgj.onion">http://bitmixer2whesjgj.onion</a>.
 </p>
 
 <h2>Find a hosting provider that accepts bitcoin</h2>
@@ -73,21 +76,12 @@ This tutorial uses bithost.io, they're a simple reseller for digitalocean.
 <p>
     You need to create a private ssh key to connect to your server <a href="https://www.drupal.org/node/1070130">Creating an ssh key in OSX</a>
 
-    <pre>ssh-keygen -t rsa -C "your_tor_email_address@hmamail.com"</pre>
+    <pre>ssh-keygen -t rsa -C "your_tor_email_address@hmamail.com" -f tor_only_rsa</pre>
 
-    You will get output like this:
+    You should get output like this
 
-    <pre>Generating public/private rsa key pair.
-    Enter file in which to save the key (/Users/#yourusername#/.ssh/id_rsa):</pre>
-
-    Name the key:
-    <pre>Enter file in which to save the key (/Users/#yourusername#/.ssh/id_rsa):
-    ~/.ssh/tor_only_rsa</pre>
-
-The key was created!.
-
-  <pre>Your identification has been saved in id_rsa.
-  Your public key has been saved in id_rsa.pub.
+  <pre>Your identification has been saved in tor_only_rsa.
+  Your public key has been saved in tor_only_rsa.pub.
   The key fingerprint is:
   3c:fb:bf:4b:71:13:dd:d5:36:0d:94:6a:c7:23:97:75 your_tor_email_address@hmamail.com</pre>
 
@@ -149,7 +143,7 @@ Protocol 2
 ProxyCommand nc -X 5 -x 127.0.0.1:9050 %h %p
 IdentityFile ~/.ssh/tor_only_rsa</pre>
 
-Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells ssh to route connections through localhost port <strong>9050</strong>. 
+Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells ssh to route connections through localhost port <strong>9050</strong>.
 
 
 </p>
