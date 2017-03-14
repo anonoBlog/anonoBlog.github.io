@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anonymous server</title>
+    <title>Manage a server anonymously</title>
 
     <!-- Bootstrap -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,17 +20,19 @@
         </div>
         <div class="navbar navbar-static-top bs-docs-nav">
           <ul class="nav navbar-nav">
-            <li class="active"> <a href="index.html">The project</a> </li>
+            <li class="active"> <a href="index.html">Home</a> </li>
             <li> <a href="hidden-service.html">Set up a hidden service</a> </li>
-            <li> <a href="anonymous-server.html">Manage a server anonymously</a>
+            <li> <a href="fancy-dot-onion.html">Get a fancy .onion name</a> </li>
+            <li> <a href="anonymous-server.html">Manage a server anonymously</a></li>
+            <li> <a href="scan-for-leaks.html">Scan for leaks</a></li>
           </ul>
         </div>
       </div>
     </header>
     <div class="bs-docs-header">
       <div class="container">
-        <h1>Hello, tor!</h1>
-        <div>A blog about using tor as an open source developer</div>
+        <h1>Hello, Tor!</h1>
+        <div>Creating and running a Tor hidden service anonymously</div>
       </div>
     </div>
     <div class="main-content">
@@ -40,97 +42,98 @@
 <p>
 Your hosting provider keeps logs and records who controls what servers. If your server is identified or completely compromised, you want to be sure that it's not tied to your real identity.
 </p>
-<h2>Get tor and the tor browser bundle</h2>
 <p>
-Throughout this whole process you should be using the tor browser bundle for all of your searching.
-
-You must keep your tor identity seperate from your real identity! If you've set up a reddit account while browsing on tor, NEVER log into it from google chrome. Never log into your personal email account from tor. The idea is to keep your public and anonymous profiles completely seperate.
-<br/>
-Download the <a href="www.torproject.org/projects/torbrowser.html">Tor browser bundle</a>
+  We have to treat the hosting provider and payment processor as if they are completely compromised from day 1. Paying with a credit card would lead a trail directly to your real address.
 </p>
 
 
-<h2>Get some bitcoin that are not tied to your identity</h2>
+<h2>Get the Tor Browser Bundle</h2>
 <p>
-  We have to treat the hosting provider and payment proccessor as if they are completely compromised from day 1. Paying with credit card would lead a trail directly to your real address.
-</p>
+Throughout this whole process you should be using the Tor Browser Bundle for all of your searching.</p>
 <p>
-  Bitcoin is a pseudo-anonymous Crypto Currency, transaction history of accounts is completely public but bitcoin accounts aren't neccissarily tied to real identities. To use bitcoin anonymously, you'll have to get a bitcoin account that's not tied to your real identity. This was the tricky part for me, Australian sites make you upload an ID when you buy bitcoin.
-</p>
-<p>
-   Fortunately there's a way to re-annonymise your bitcoin. Bitcoin mixers are services which take bitcoin from many accounts, shuffle them together and credit a new <i>re-anonymised</i> account in a way that is very hard to trace. I used bitmixer.io but there are quite a few available <a href="http://bitmixer2whesjgj.onion">http://bitmixer2whesjgj.onion</a>.
-</p>
-
-<h2>Find a hosting provider that accepts bitcoin</h2>
-<p>
-
-This tutorial uses bithost.io, they're a simple reseller for digitalocean.
-<a href="https://dashboard.bithost.io/">https://dashboard.bithost.io/</a>
-</p>
-<p>
-  From the tor browser, create a new email address, I used <a href="https://securemail.hidemyass.com/">hmamail</a>. You should only ever log in to this account through tor. Please for the love of chthulhu, don't sign up using your real email address.
-
-  Sign up for bithost.io using your new email address. And credit your account with a few dollars worth of bitcoin.
+You must keep your Tor identity seperate from your real identity. If you've set up any kind of account while browsing on Tor, never log into it from your normal browser. Never log into your personal email account from Tor. The idea is to keep your public and anonymous profiles completely separate.
 </p>
 
 <p>
-    You need to create a private ssh key to connect to your server <a href="https://www.drupal.org/node/1070130">Creating an ssh key in OSX</a>
+Download the <a href="https://www.torproject.org/projects/torbrowser.html">Tor Browser Bundle</a>.
+</p>
 
-    <pre>ssh-keygen -t rsa -C "your_tor_email_address@hmamail.com" -f tor_only_rsa</pre>
 
-    You should get output like this
+<h2>Get a new email address</h2>
+
+<p>
+  Using the Tor browser, create a new email address.
+</p>
+<p>
+  You should only ever log in to this account through Tor. Please, for the love of Cthulhu, don't sign up using your real email address.
+</p>
+
+<p>
+  Most email providers require SMS or credit card verification when signing up with Tor (either of which will identify you).
+</p>
+
+<p>
+  Use a disposable email address from a provider like <a href="https://10minutemail.com/">10minutemail.com</a>. Bear in mind these services are often blocked by hosting providers; this one is confirmed to be working as of 15/3/17.
+</p>
+
+<h2>Get a VPS hosting provider that accepts bitcoin</h2>
+
+<p>
+Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using your new email address, and confirm by clicking the link in the verification email.
+</p>
+
+<h2>Create an SSH key-pair just for Tor</h2>
+
+<p>You need to create an SSH key pair to connect to your server.</p>
+
+    <pre>ssh-keygen -C "no-one-knows" -f tor_only_rsa</pre>
+
+    <p>You should get output like this:</p>
 
   <pre>Your identification has been saved in tor_only_rsa.
   Your public key has been saved in tor_only_rsa.pub.
   The key fingerprint is:
-  3c:fb:bf:4b:71:13:dd:d5:36:0d:94:6a:c7:23:97:75 your_tor_email_address@hmamail.com</pre>
+  3c:fb:bf:4b:71:13:dd:d5:36:0d:94:6a:c7:23:97:75 no-one-knows</pre>
 
+<p>Now add that key to Bithost (copying and pasting the contents of <code>tor_only_rsa.pub</code>). </p>
+
+<h2>Get a bitcoin wallet</h2>
+<p>
+  If you don't have a bitcoin wallet already, you'll need one before you can pay for your server. This means choosing a bitcoin wallet provider that you trust. Ideally you want to choose one with "Improved privacy"; have a browse through <a href="https://bitcoin.org/en/choose-your-wallet">Choose Your Wallet</a> to get a better understanding.
 </p>
 
-Now upload this key to bithost along with its fingerprint.
+<h2>Pay your hosting provider without revealing your bitcoin address</h2>
 
-<pre>3c:fb:bf:4b:71:13:dd:d5:36:0d:94:6a:c7:23:97:75
-
-ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQB/nAmOjTmezNUDKYvEeIRf2YnwM9/uUG1d0BYsc8/tRtx+RGi7N2lUbp728MXGwdnL9od4cItzky/zVdLZE2cycOa18xBK9cOWmcKS0A8FYBxEQWJ/q9YVUgZbFKfYGaGQxsER+A0w/fX8ALuk78ktP31K69LcQgxIsl7rNzxsoOQKJ/CIxOGMMxczYTiEoLvQhapFQMs3FL96didKr/QbrfB1WT6s3838SEaXfgZvLef1YB2xmfhbT9OXFE3FXvh2UPBfN+ffE7iiayQf/2XR+8j4N4bW30DiPtOQLGUrH1y5X/rpNZNlWW2+jGIxqZtgWg7lTy3mXy5x836Sj/6L your_tor_email_address@hmamail.com</pre>
-
-
-Great, now launch a server using that key.
-
-select a <code>debian</code> server! the ubuntu ones wouldn't properly publish the .onion domain
-
-you should get instructions like this:
-
-    <pre>ssh -i /path/to/private_key root@146.184.111.32</pre>
-
-
-
-<h2>SSH onto the server using tor</h2>
 <p>
-Only ever connect to your server using tor!<br/>
+  Bitcoin is a pseudo-anonymous cryptocurrency. Transaction history of accounts is completely public but bitcoin accounts aren't necessarily tied to real identities. To use Bitcoin anonymously, you could get a bitcoin account that's not tied to your real identity... but that's tricky. Australian sites make you upload ID when you buy bitcoin.
+</p>
+<p>
+   Fortunately, there's another way to anonymise your payment -- bitcoin mixers. These services take your bitcoins, add them to a vault of many bitcoins, then take out a new selection of bitcoins to credit the payee's account in a way that is very hard to trace.
+</p>
+<p>
+  For this workshop, we will use bitmixer.io at <a href="http://bitmixer2whesjgj.onion">http://bitmixer2whesjgj.onion</a>.  Credit your Bithost account with a few dollars worth of mixed bitcoin via bitmixer.io.
+</p>
 
-<h3>Install the tor command line proxy.</h3>
+<h2>Create a server</h2>
 
-<pre>brew install tor</pre>
+<p>Great. Now launch a <b>Debian</b> (not Ubuntu) server using the key you uploaded earlier.</p>
+
+<p>You should see instructions like this (but <b>don't</b> run this command -- skip to the next step):</p>
+
+<pre>ssh -i /path/to/private_key root@146.184.111.32</pre>
+
+<h2>SSH onto the server using Tor</h2>
+<p>
+  Only ever connect to your server using Tor!
+</p>
+
+<h3>Run the Tor command line proxy.</h3>
 
 <pre>tor</pre>
 
-Tor will open a proxy on port <strong>9050</strong> with output like this.
-
-<pre>[notice] tor v0.2.7.6 running...
-[notice] ...
-[notice] Opening Socks listener on 127.0.0.1:9050</pre>
-</p>
+<h3>Connect to your server with SSH</h3>
 <p>
-Open another tab and test the tor proxy!
-
-Leave <code>tor</code> running and open a new terminal tab
-
-<pre> curl --socks5-hostname 127.0.0.1:9050 http://mmxlnyla3l4ggnsg.onion/testtor.txt</pre>
-</p>
-
-<h3>Connect to your server with ssh</h3>
-<p>
-Add this to your ssh config (create this file if it doesn't exist)
+Add this to your SSH config (create this file if it doesn't exist).
 
 <pre>~/.ssh/config</pre>
 
@@ -143,35 +146,34 @@ Protocol 2
 ProxyCommand nc -X 5 -x 127.0.0.1:9050 %h %p
 IdentityFile ~/.ssh/tor_only_rsa</pre>
 
-Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells ssh to route connections through localhost port <strong>9050</strong>.
+Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells SSH to route connections through localhost port <strong>9050</strong>.
 
 
 </p>
-You can now ssh onto your server through tor!
+You can now ssh onto your server through Tor!
 <pre>ssh my-secret-server</pre>
 
 
-<h2>You now have an anonymous server!</h2>
+<h2>You have an anonymous server!</h2>
 <p>
-You're awesome! now upload something, set up a webserver, create a site where people can rate each others cats, the world is your oyster!
+You're awesome! Now, upload something, set up a webserver, create a site where people can rate each other's cats... the world is your oyster... just try not to blow your cover.
 </p>
 
 <p>
-Having ssh'd onto the server, you can set up your hidden service. Follow these instructions to get tor set up as a service on debian
+Having SSH'd onto the server, you can set up your hidden service. Follow these instructions to get Apache set up as a service on Debian
 <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-the-apache-web-server-on-an-ubuntu-or-debian-vps">https://www.digitalocean.com/community/tutorials/how-to-configure-the-apache-web-server-on-an-ubuntu-or-debian-vps</a>
 
+<h2>Uploading content</h2>
 
-Using the ssh config that you set up earlier, you can upload files using <code>sftp</code>
+<p>Thanks to the SSH config that you set up earlier, you can upload files using <code>sftp</code> (via Tor).</p>
 
 <pre>sftp my-secret-server</pre>
-</p>
-
-<h2>Stay safe! Stay anonymous!</h2>
 
 
       </p>
+      <h2>Next</h2>
       <p>
-        <a href="hidden-service.html">Creating a hidden service</a>
+        <a href="scan-for-leaks.html">Scan for leaks</a>
       </p>
 
       </div>
