@@ -47,7 +47,7 @@ Your hosting provider keeps logs and records who controls what servers. If your 
 </p>
 
 
-<h2>Get the Tor Browser Bundle</h2>
+<h2>Install the Tor Browser Bundle</h2>
 <p>
 Throughout this whole process you should be using the Tor Browser Bundle for all of your searching.</p>
 <p>
@@ -76,10 +76,37 @@ Download the <a href="https://www.torproject.org/projects/torbrowser.html">Tor B
   Use a disposable email address from a provider like <a href="https://10minutemail.com/">10minutemail.com</a>. Bear in mind these services are often blocked by hosting providers; this one is confirmed to be working as of 15/3/17.
 </p>
 
-<h2>Get a VPS hosting provider that accepts bitcoin</h2>
+<h2>Get a virtual server</h2>
+
+<h3>If you don't have bitcoin</h3>
+
+<p>If you want to skip this part of the workshop, you can simply register for a virtual server provider like <a href="https://www.linode.com/">Linode</a> or <a href="https://www.digitalocean.com/">DigitalOcean</a> using a credit card (note that this creates a link to your real identity).</p>
 
 <p>
-Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using your new email address, and confirm by clicking the link in the verification email.
+Ideally, you should pay for your server with bitcoin in a way that doesn't reveal your bitcoin address. But setting up a bitcoin wallet might take a while, and you'll need someone to transfer you some funds to get you started .</p>
+
+<p>
+  If you want to take the time to set up a bitcoin wallet, you'll need to choose a bitcoin wallet provider that you trust.
+
+<p>
+  Bitcoin is a pseudo-anonymous cryptocurrency. Transaction history of accounts is completely public but bitcoin accounts aren't necessarily tied to real identities. To use Bitcoin anonymously, you could get a bitcoin account that's not tied to your real identity... but that's tricky. Australian sites make you upload ID when you buy bitcoin.
+</p>
+
+<p>
+   Fortunately, some wallets offer privacy-enhancing features that go some way to anonymising your transactions. A full analysis is out of scope for this workshop.
+</p>
+
+<p>
+  There are some options here: <a href="https://bitcoin.org/en/choose-your-wallet">Choose Your Wallet</a> (look for "improved privacy"). Alternatively, check out <a href="https://samouraiwallet.com">Samourai Wallet</a> (Android only, Alpha) or <a href="https://breadwallet.com">Bread Wallet</a> (iOS and Android).
+</p>
+
+<p>
+  When you have a wallet, you'll have to ask someone else to transfer you some bitcoin (so you can get it immediately). In future you can use <a href="https://localbitcoins.com/">LocalBitcoins</a> to trade cash for bitcoins.
+</p>
+
+<h3>If/when you have some bitcoin...</h3>
+<p>
+Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using your new email address, and confirm by clicking the link in the verification email. Then credit your Bithost account with at least <b>US$15</b> worth of bitcoin.
 </p>
 
 <h2>Create an SSH key-pair just for Tor</h2>
@@ -97,30 +124,11 @@ Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using y
 
 <p>Now add that key to Bithost (copying and pasting the contents of <code>tor_only_rsa.pub</code>). </p>
 
-<h2>Get a bitcoin wallet</h2>
-<p>
-  If you don't have a bitcoin wallet already, you'll need one before you can pay for your server. This means choosing a bitcoin wallet provider that you trust. Ideally you want to choose one with "Improved privacy"; have a browse through <a href="https://bitcoin.org/en/choose-your-wallet">Choose Your Wallet</a> to get a better understanding.
-</p>
-
-<h2>Pay your hosting provider without revealing your bitcoin address</h2>
-
-<p>
-  Bitcoin is a pseudo-anonymous cryptocurrency. Transaction history of accounts is completely public but bitcoin accounts aren't necessarily tied to real identities. To use Bitcoin anonymously, you could get a bitcoin account that's not tied to your real identity... but that's tricky. Australian sites make you upload ID when you buy bitcoin.
-</p>
-<p>
-   Fortunately, there's another way to anonymise your payment -- bitcoin mixers. These services take your bitcoins, add them to a vault of many bitcoins, then take out a new selection of bitcoins to credit the payee's account in a way that is very hard to trace.
-</p>
-<p>
-  For this workshop, we will use bitmixer.io at <a href="http://bitmixer2whesjgj.onion">http://bitmixer2whesjgj.onion</a>.  Credit your Bithost account with a few dollars worth of mixed bitcoin via bitmixer.io.
-</p>
-
 <h2>Create a server</h2>
 
 <p>Great. Now launch a <b>Debian</b> (not Ubuntu) server using the key you uploaded earlier.</p>
 
-<p>You should see instructions like this (but <b>don't</b> run this command -- skip to the next step):</p>
-
-<pre>ssh -i /path/to/private_key root@146.184.111.32</pre>
+<p>You should see instructions telling you how to ssh to your server, but <b>don't</b> run that command yet -- skip to the next step.</p>
 
 <h2>SSH onto the server using Tor</h2>
 <p>
@@ -133,7 +141,7 @@ Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using y
 
 <h3>Connect to your server with SSH</h3>
 <p>
-Add this to your SSH config (create this file if it doesn't exist).
+Replace the IP in the text below with your server's IP and add this to your SSH config.
 
 <pre>~/.ssh/config</pre>
 

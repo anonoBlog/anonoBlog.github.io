@@ -38,14 +38,11 @@
     <div class="main-content">
       <div class="container">
 
+      <h2>Install the Tor command line tool</h2>
       <p>
-        This tutorial will help you set up Tor and a hidden service from OS X.
-      </p>
-      <h2>Install Tor</h2>
-      <p>
-        First, install Tor:</p>
+        <p>You can install from MacPorts or Homebrew on OS X, from aptitude in Debian/Ubuntu, from <a href="https://www.torproject.org/docs/rpms.html.en">rpms</a> in Fedora/RedHat, or <a href="https://www.torproject.org/download/download.html.en">download directly</a> for Windows (you need the "expert bundle").</p>
+        <p>These instructions assume you are using Homebrew and OS X, so:</p>
         <pre>brew install tor</pre>
-        <p>Tor settings can be found at <code>/usr/local/etc/tor/</code>.</p>
         <p>Run Tor:</p>
         <pre>tor</pre>
         <p>Tor is now listening on port 9050. Your computer won't use Tor by default; you have to manually route apps through Tor.</p>

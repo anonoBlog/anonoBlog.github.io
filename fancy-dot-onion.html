@@ -37,6 +37,68 @@
     </div>
     <div class="main-content">
       <div class="container">
+      <h2>Use a tool to brute force .onions</h2>
+      <p>
+        f3yniw7vmrsvjzbm.onion is a pretty ugly name, right? If it's not good enough for Facebook (<a href="https://facebookcorewwwi.onion/">facebookcorewwwi.onion</a>), it's not good enough for us.
+      </p>
+      <p>
+        The .onion name is a hash of a random public key, and we're going to use a tool to generate a lot of them and find one we like. <a href="https://timtaubert.de/blog/2014/11/using-the-webcrypto-api-to-generate-onion-names-for-tor-hidden-services/">More detail about how this works</a>.
+      </p>
+      <p>
+        There are several tools built for this purpose. If you're on Windows, you can try <a href="http://github.com/lachesis/scallion">Scallion</a>. On Mac OS X or Linux, <a href="https://github.com/ReclaimYourPrivacy/eschalot">Eschalot</a> should work (it didn't for me on OS X, so the instructions below use a Debian VM). Skip to <a href="anonymous-server.html">manage a server anonymously</a> if you need to set up a server first.
+      </p>
+<pre>
+apt-get update
+apt-get install make gcc openssl unzip
+wget https://github.com/ReclaimYourPrivacy/eschalot/archive/master.zip
+unzip master.zip
+cd eschalot-master
+make
+make test
+</pre>
+
+        <p>
+          If that all works you'll start to see output along these lines:
+        </p>
+
+<pre>
+Found a key for sadpaper (8) - sadpaperp23s5tey.onion
+Found a key for oldsmoke (8) - oldsmoke3kn6rky7.onion
+Found a key for bentrest (8) - bentrestmpz4psyf.onion
+Total hashes: 143760995, running time: 10 seconds, hashes per second: 14376099
+Found a key for slowview (8) - slowviewryzixyji.onion
+</pre>
+
+<p>Now you'll have some options that are slightly more memorable. If you want to use one of these you'll find the key-pairs in <code>results.txt</code>. </p>
+
+<h2>How do I get what I really want?</h2>
+
+<p>The two simplest ways to use Eschalot are to specify either a prefix or a regex, e.g. to find a name starting "anblog":</p>
+
+<pre>
+./eschalot -vct4 -p anblog
+</pre>
+<p>or to find a name starting that either starts with "tony" or ends with "eats":</p>
+<pre>
+./eschalot -vct4 -r "^tony|eats$"
+</pre>
+
+<p>The arguments here are specifying verbose mode, continuous (i.e. not stopping when we find a match), and running in parallel on 4 threads (you should adjust this to match the number of CPU cores you have).</p>
+
+<p>Note that these examples find results pretty quickly since only 4 letters have to match; the longer you make your search pattern, the longer it'll probably take. Up to 6 characters should be quick enough for the workshop (within a few minutes). 8 characters is feasible later (expect results within a day).</p>
+
+<p>Another option is to use <code>./worgen</code> to generate word lists to use as acceptable prefixes (see usage instructions), and specify the resulting file as input to Eschalot using <code>-f</code>.</p>
+
+<p>Type <code>./eschalot</code> or <code>./worgen</code> without arguments for usage information.</p>
+
+<h2>Using your name</h2>
+<p>
+Replace the private key in <code>/usr/local/etc/tor/hidden_http_service/private_key</code> (or wherever you specified the <code>HiddenServiceDir</code> to be in your <code>torrc</code>) with the Eschalot-generated one (including its header and footer). Restart your Tor. It should update <code>/usr/local/etc/tor/hidden_http_service/hostname</code>, and you should find your fancy new .onion is alive.
+</p>
+
+<p class="center">
+      <img src="tony.jpeg" />
+</p>
 
       <h2>Next</h2>
       <p>
