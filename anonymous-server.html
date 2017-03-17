@@ -49,10 +49,11 @@ Your hosting provider keeps logs and records who controls what servers. If your 
 
 <h2>Install the Tor Browser Bundle</h2>
 <p>
-Throughout this whole process you should be using the Tor Browser Bundle for all of your searching.</p>
+Throughout this whole process you should be using the Tor Browser Bundle for all of your web browsing and searching.</p>
 <p>
 You must keep your Tor identity seperate from your real identity. If you've set up any kind of account while browsing on Tor, never log into it from your normal browser. Never log into your personal email account from Tor. The idea is to keep your public and anonymous profiles completely separate.
 </p>
+<p>For more on using Tor for browsing, see Tor's <a href="https://www.torproject.org/download/download-easy.html.en#warning">"Want Tor to really work?"</a> warnings.</p>
 
 <p>
 Download the <a href="https://www.torproject.org/projects/torbrowser.html">Tor Browser Bundle</a>.
@@ -141,30 +142,28 @@ Sign up for <a href="https://dashboard.bithost.io/users/new">Bithost</a> using y
 
 <h3>Connect to your server with SSH</h3>
 <p>
-Replace the IP in the text below with your server's IP and add this to your SSH config.
+Replace the IP <code>1.2.3.4</code> in the text below with your server's IP and add this to your SSH config.
 
 <pre>~/.ssh/config</pre>
 
-<pre>Host 146.184.111.32 my-secret-server
-HostName 146.184.111.32
+<pre>Host 1.2.3.4 my-secret-server
+HostName 1.2.3.4
 User root
 CheckHostIP no
 Compression yes
 Protocol 2
 ProxyCommand nc -X 5 -x 127.0.0.1:9050 %h %p
 IdentityFile ~/.ssh/tor_only_rsa</pre>
-
-Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells SSH to route connections through localhost port <strong>9050</strong>.
-
-
+<p>
+  Notice the line <code>ProxyCommand ... 127.0.0.1:9050 ...</code>. This tells SSH to route connections through localhost port <strong>9050</strong>.
 </p>
-You can now ssh onto your server through Tor!
+<p>You can now ssh onto your server through Tor!</p>
 <pre>ssh my-secret-server</pre>
 
 
 <h2>You have an anonymous server!</h2>
 <p>
-You're awesome! Now, upload something, set up a webserver, create a site where people can rate each other's cats... the world is your oyster... just try not to blow your cover.
+You're awesome! Now, upload something, set up a webserver, create a site where people can rate each other's cats... the world is your oyster... just try not to blow your cover (more on that <a href="https://www.bentasker.co.uk/documentation/linux/307-building-a-tor-hidden-service-from-scratch-part-1">here</a>).
 </p>
 
 <p>

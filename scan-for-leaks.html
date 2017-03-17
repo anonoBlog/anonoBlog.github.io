@@ -38,7 +38,83 @@
     <div class="main-content">
       <div class="container">
 
-        <h2>Stay safe! Stay anonymous!</h2>
+<h2>OnionScan</h2>
+
+<p>OnionScan is a tool for scanning hidden services for opsec leaks and software misconfiguration that could enable an attacker to determine the service operator. It will run on any operating system with Golang.</p>
+
+<h2>Install Go(lang)</h2>
+<p>On a Mac it's simple:</p>
+<pre>brew install go</pre>
+<p>On Linux, it may be available similarly via your package manager (probably as <code>golang</code>).</p>
+<p>On other systems, follow the instructions to <a href="https://golang.org/dl/">download</a> and <a href="https://golang.org/doc/install">install</a> from the Go website.</p>
+
+<h2>Install OnionScan</h2>
+<pre>
+go get github.com/HouzuoGuo/tiedot
+go get golang.org/x/crypto/openpgp
+go get golang.org/x/net/proxy
+go get golang.org/x/net/html
+go get github.com/rwcarlsen/goexif/exif
+go get github.com/rwcarlsen/goexif/tiff
+go get github.com/s-rah/onionscan
+go install github.com/s-rah/onionscan.go
+</pre>
+
+<h2>Make it scan</h2>
+
+<p>OnionScan should now be installed in your GOPATH. On Mac, this should be <code>~/go</code> (if not, find it by running <code>go env GOPATH</code>).</p>
+
+<pre>
+cd ~/go
+./onionscan --verbose yourhiddenservice.onion
+</pre>
+
+<h2>What it's doing</h2>
+
+<p>OnionScan crawls to look for things that might give away identity like images with EXIF tags and PGP identities. It also checks SSH endpoints, analytics IDs, and server fingerprinting that can be used to determine if two sites are hosted on the same infrastructure. And Apache's <a href="https://arstechnica.com/security/2016/02/default-settings-in-apache-may-decloak-tor-hidden-services/">mod_status</a>. And <a href="https://github.com/s-rah/onionscan/blob/master/doc/what-is-scanned-for.md">more</a>.</p>
+
+<p>OnionScan's output (in verbose mode) should give you a good idea of what it's checking. When it's finished it should show a report something like this:</p>
+
+<pre>
+--------------- OnionScan Report ---------------
+Generating Report for: yourhiddenservice.onion
+
+Info: Found Identities
+         Items Identified:
+
+         onion-munch.jpg
+</pre>
+
+<p>There are a number of reports from aggregated OnionScans of thousands of hidden services, with great visualisations available on <a href="https://onionscan.org/">onionscan.org</a>.</p>
+
+<p class="center"><a href="https://onionscan.org"><img src="onionscan-reports.png" style="width: 570px;" /></a></p>
+
+<h2>That's all folks</h2>
+
+<p>Some further reading:</p>
+<ul>
+<li><a href="https://onionscan.org/">The OnionScan reports</a></li>
+<li>Building a Tor Hidden Service From Scratch
+<ul>
+<li><a href="https://www.bentasker.co.uk/documentation/linux/307-building-a-tor-hidden-service-from-scratch-part-1">Part 1 - Design and Setup</a></li>
+<li><a href="https://www.bentasker.co.uk/documentation/linux/309-building-a-tor-hidden-service-from-scratch-part-2-http-and-https">Part 2 - HTTP and HTTPS</a></li>
+<li><a href="https://www.bentasker.co.uk/documentation/linux/310-building-a-tor-hidden-service-from-scratch-part-3-general-user-anonymity-and-security">Part 3 - General User Anonymity and Security</a>
+</ul>
+</li>
+<li>Dark Web OSINT with Python and OnionScan
+<ul>
+<li><a href="http://www.automatingosint.com/blog/2016/07/dark-web-osint-with-python-and-onionscan-part-one/">Part 1</li>
+<li><a href="http://www.automatingosint.com/blog/2016/08/dark-web-osint-with-python-part-two-ssh-keys-and-shodan/">Part 2 - SSH Keys and Shodan</a></li>
+<li><a href="http://www.automatingosint.com/blog/2016/08/dark-web-osint-with-python-part-three-visualization/">Part 3 - Visualisation</a></li>
+<li><a href="http://www.automatingosint.com/blog/2016/09/dark-web-osint-part-four-using-scikit-learn-to-find-hidden-service-clones/">Part 4 - Using Scikit-Learn to Find Hidden Service Clones</a></li>
+</ul>
+</li>
+<li><a href="http://kernelmag.dailydot.com/issue-sections/staff-editorials/10395/why-to-download-tor/">Why we need Tor now more than ever</a></li>
+
+</ul>
+
+
+
 
       </div>
     </div>
