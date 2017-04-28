@@ -45,8 +45,21 @@
         The .onion name is a hash of a random public key, and we're going to use a tool to generate a lot of them and find one we like. <a href="https://timtaubert.de/blog/2014/11/using-the-webcrypto-api-to-generate-onion-names-for-tor-hidden-services/">More detail about how this works</a>.
       </p>
       <p>
-        There are several tools built for this purpose. If you're on Windows, you can try <a href="http://github.com/lachesis/scallion">Scallion</a>. On Mac OS X or Linux, <a href="https://github.com/ReclaimYourPrivacy/eschalot">Eschalot</a> should work (it didn't for me on OS X, so the instructions below use a Debian VM). Skip to <a href="anonymous-server.html">manage a server anonymously</a> if you need to set up a server first.
+        There are several tools built for this purpose. If you're on Windows, you can try <a href="http://github.com/lachesis/scallion">Scallion</a>. On Mac OS X or Linux, <a href="https://github.com/ReclaimYourPrivacy/eschalot">Eschalot</a> should work. Skip to <a href="anonymous-server.html">manage a server anonymously</a> if you need to set up a server first.
       </p>
+<p>Mac:</p>
+<pre>
+brew install openssl
+wget https://github.com/ReclaimYourPrivacy/eschalot/archive/master.zip
+unzip master.zip
+cd eschalot-master
+echo "CFLAGS          += -L/usr/local/opt/openssl/lib\n" >> Makefile
+echo "CFLAGS          += -I/usr/local/opt/openssl/include\n" >> Makefile
+make
+make test
+</pre>
+
+<p>Debian or Ubuntu:</p>
 <pre>
 apt-get update
 apt-get install make gcc openssl unzip libssl-dev
