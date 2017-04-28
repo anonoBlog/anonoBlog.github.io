@@ -47,19 +47,21 @@
       <p>
         There are several tools built for this purpose. If you're on Windows, you can try <a href="http://github.com/lachesis/scallion">Scallion</a>. On Mac OS X or Linux, <a href="https://github.com/ReclaimYourPrivacy/eschalot">Eschalot</a> should work. Skip to <a href="anonymous-server.html">manage a server anonymously</a> if you need to set up a server first.
       </p>
-<p>Mac:</p>
+<h3>Mac</h3>
+<p>This assumes you have make and gcc installed already. If you have Xcode you should be good. If not, try <code>brew install gcc make</code>.</p>
+
 <pre>
 brew install openssl
 wget https://github.com/ReclaimYourPrivacy/eschalot/archive/master.zip
 unzip master.zip
 cd eschalot-master
-echo "CFLAGS          += -L/usr/local/opt/openssl/lib\n" >> Makefile
-echo "CFLAGS          += -I/usr/local/opt/openssl/include\n" >> Makefile
+echo "CFLAGS          += -L/usr/local/opt/openssl/lib" >> Makefile
+echo "CFLAGS          += -I/usr/local/opt/openssl/include" >> Makefile
 make
 make test
 </pre>
 
-<p>Debian or Ubuntu:</p>
+<h3>Debian or Ubuntu</h3>
 <pre>
 apt-get update
 apt-get install make gcc openssl unzip libssl-dev
@@ -70,6 +72,7 @@ make
 make test
 </pre>
 
+<h3>Is it working?</h3>
         <p>
           If that all works you'll start to see output along these lines:
         </p>
